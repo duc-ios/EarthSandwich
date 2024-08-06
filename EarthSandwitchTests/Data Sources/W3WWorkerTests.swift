@@ -24,9 +24,49 @@ final class W3WWorkerTests: XCTestCase {
         super.tearDown()
     }
 
+    func testConvertToCoordinates() {
+        // given
+        let words = "mướp đắng.nhận lời.đỏ hồng"
+        let promise = expectation(description: "Coords Received")
+
+        // when
+        Task {
+            do {
+                let coords = try await sut.convertToCoordinates(words)
+                // then
+                XCTAssertEqual(coords, CLLocationCoordinate2D(latitude: 51.5209174, longitude: -0.1981336))
+            } catch {
+                debugPrint(error)
+            }
+            promise.fulfill()
+        }
+        wait(for: [promise], timeout: 5)
+    }
+
+    func testConvertToWords() {
+        // given
+        let coords = CLLocationCoordinate2D(latitude: 51.5209174, longitude: -0.1981336)
+        let locale = "vi"
+        let promise = expectation(description: "Words Received")
+
+        // when
+        Task {
+            do {
+                let words = try await sut.convertToWords(coords: coords, locale: locale)
+                // then
+                XCTAssertEqual(words, "mướp đắng.nhận lời.đỏ hồng")
+                promise.fulfill()
+            } catch {
+                debugPrint(error)
+            }
+        }
+        wait(for: [promise], timeout: 5)
+    }
+
     func testCalculateAntipode() {
         // Given
-        let coords = CLLocationCoordinate2D(latitude: 52.04, longitude: -0.76) // Milton Keynes
+        // what3words 65 Alfred Rd, London W2 5EU, United Kingdom
+        let coords = CLLocationCoordinate2D(latitude: 51.5209174, longitude: -0.1981336)
 
         // When
         let antipode = sut.calculateAntipode(coords) // Milton Keynes
@@ -34,13 +74,14 @@ final class W3WWorkerTests: XCTestCase {
         // Then
         XCTAssertEqual(
             antipode,
-            CLLocationCoordinate2D(latitude: -52.04, longitude: 179.24)
+            CLLocationCoordinate2D(latitude: -51.5209174, longitude: 179.80186640000002)
         )
     }
 }
 
 extension CLLocationCoordinate2D: Equatable {
     public static func == (lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool {
-        ceil(lhs.latitude) == ceil(rhs.latitude) && ceil(lhs.longitude) == ceil(rhs.longitude)
+        String(format: "%.2f", lhs.latitude) == String(format: "%.2f", rhs.latitude)
+            && String(format: "%.2f", lhs.longitude) == String(format: "%.2f", rhs.longitude)
     }
 }

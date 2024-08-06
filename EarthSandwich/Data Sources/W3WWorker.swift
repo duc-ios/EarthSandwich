@@ -11,6 +11,7 @@ import W3WSwiftApi
 protocol W3WWorker {
     func convertToCoordinates(_ words: String) async throws -> CLLocationCoordinate2D
     func convertToWords(coords: CLLocationCoordinate2D, locale: String) async throws -> String
+    func calculateAntipode(_ coords: CLLocationCoordinate2D) -> CLLocationCoordinate2D
 }
 
 struct NetworkW3WWorker: W3WWorker {
