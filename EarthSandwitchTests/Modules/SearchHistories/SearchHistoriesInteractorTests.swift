@@ -38,6 +38,19 @@ final class SearchHistoriesInteractorTests: XCTestCase {
         super.tearDown()
     }
 
+    func testChangeLanguage() {
+        // Given
+        let locale = "vi"
+        let countryCode = "VN"
+        let request = SearchHistories.ChangeLanguage.Request(locale: locale, countryCode: countryCode)
+
+        // When
+        sut.changeLanguage(request: request)
+
+        // Then
+        XCTAssertTrue(presenter.presentLanguageCalled)
+    }
+
     func testLoadHistories() {
         // Given
         let request = SearchHistories.LoadHistories.Request()
@@ -62,8 +75,13 @@ final class SearchHistoriesInteractorTests: XCTestCase {
 }
 
 final class SearchHistoriesPresenterMock: SearchHistoriesPresentationLogic {
+    var presentLanguageCalled = false
     var presentHistoriesCalled = false
     var presentErrorCalled = false
+
+    func presentLanguage(response: SearchHistories.ChangeLanguage.Response) {
+        presentLanguageCalled = true
+    }
 
     func presentHistories(response: SearchHistories.LoadHistories.Response) {
         presentHistoriesCalled = true

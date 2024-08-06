@@ -25,6 +25,20 @@ final class SearchHistoriesPresenterTests: XCTestCase {
         super.tearDown()
     }
 
+    func testDisplayLanguage() {
+        // Given
+        let locale = "vi"
+        let countryCode = "VN"
+        let response = SearchHistories.ChangeLanguage.Response(locale: locale, countryCode: countryCode)
+
+        // When
+        sut.presentLanguage(response: response)
+
+        // Then
+        XCTAssertEqual(view.locale, locale)
+        XCTAssertEqual(view.countryCode, countryCode)
+    }
+
     func testDisplayHistories() {
         // Given
         let items = Seeds.items
@@ -50,8 +64,15 @@ final class SearchHistoriesPresenterTests: XCTestCase {
 }
 
 final class SearchHistoriesViewMock: SearchHistoriesDisplayLogic {
+    var locale: String?
+    var countryCode: String?
     var items: [SearchHistory] = []
     var message: String?
+
+    func displayLanguage(viewModel: SearchHistories.ChangeLanguage.ViewModel) {
+        locale = viewModel.locale
+        countryCode = viewModel.countryCode
+    }
 
     func displayHistories(viewModel: EarthSandwich.SearchHistories.LoadHistories.ViewModel) {
         items = viewModel.items
