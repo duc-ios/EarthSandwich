@@ -10,7 +10,7 @@ import W3WSwiftApi
 
 protocol W3WWorker {
     func convertToCoordinates(_ words: String) async throws -> CLLocationCoordinate2D
-    func convertToWords(_ coords: CLLocationCoordinate2D) async throws -> String
+    func convertToWords(coords: CLLocationCoordinate2D, locale: String) async throws -> String
 }
 
 struct NetworkW3WWorker: W3WWorker {
@@ -30,9 +30,9 @@ struct NetworkW3WWorker: W3WWorker {
         }
     }
 
-    func convertToWords(_ coords: CLLocationCoordinate2D) async throws -> String {
+    func convertToWords(coords: CLLocationCoordinate2D, locale: String) async throws -> String {
         try await withCheckedThrowingContinuation { continuation in
-            api.convertTo3wa(coordinates: coords, language: W3WBaseLanguage.english) { square, error in
+            api.convertTo3wa(coordinates: coords, language: W3WBaseLanguage(locale: locale)) { square, error in
                 if let words = square?.words {
                     continuation.resume(returning: words)
                 } else if let error {
@@ -50,7 +50,7 @@ struct MockW3WWorker: W3WWorker {
         return .init(latitude: 52.04, longitude: -0.76)
     }
 
-    func convertToWords(_ coords: CLLocationCoordinate2D) async throws -> String {
+    func convertToWords(coords: CLLocationCoordinate2D, locale: String) async throws -> String {
         return "what.three.works"
     }
 }

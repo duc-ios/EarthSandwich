@@ -9,11 +9,16 @@ import SwiftData
 import SwiftUI
 
 protocol SearchHistoriesDisplayLogic {
+    func displayLanguage(viewModel: SearchHistories.ChangeLanguage.ViewModel)
     func displayHistories(viewModel: SearchHistories.LoadHistories.ViewModel)
     func displayError(message: String)
 }
 
 extension SearchHistoriesView: SearchHistoriesDisplayLogic {
+    func displayLanguage(viewModel: SearchHistories.ChangeLanguage.ViewModel) {
+        store.lang = (viewModel.locale, viewModel.countryCode)
+    }
+
     func displayHistories(viewModel: SearchHistories.LoadHistories.ViewModel) {
         DispatchQueue.main.async {
             store.items = viewModel.items
@@ -29,6 +34,13 @@ extension SearchHistoriesView: SearchHistoriesDisplayLogic {
 }
 
 class SearchHistoriesDataStore: ObservableObject {
+    // swiftlint:disable:next large_tuple
+    let languages: [(name: String, locale: String, countryCode: String)] = [
+        ("English", "en", "EN"),
+        ("Tiếng Việt", "vi", "VN")
+    ]
+
+    @Published var lang = (locale: "en", countryCode: "EN")
     @Published var items: [SearchHistory] = []
     @Published var text = ""
     @Published var focusing = false
@@ -65,10 +77,31 @@ struct SearchHistoriesView: View {
                 return text
             }() + AttributedString("enter.three.words"))
 
-            AutoSuggestTextField(text: $store.text, focusing: $store.focusing)
+            HStack(alignment: .top) {
+                AutoSuggestTextField(
+                    locale: store.lang.locale,
+                    countryCode: store.lang.countryCode,
+                    text: $store.text,
+                    focusing: $store.focusing
+                )
                 .frame(
                     maxHeight: store.focusing ? .infinity : 44
                 )
+
+                Menu(store.lang.countryCode) {
+                    ForEach(store.languages, id: \.locale) { lang in
+                        Button(lang.name) {
+                            interactor.changeLanguage(request:
+                                .init(
+                                    locale: lang.locale,
+                                    countryCode: lang.countryCode
+                                )
+                            )
+                        }
+                    }
+                }
+                .frame(width: 30, height: 44)
+            }.padding(.horizontal, 8)
 
 //            ZStack {
 //                Text(slashes + AttributedString(store.text))

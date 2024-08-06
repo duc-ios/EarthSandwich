@@ -9,6 +9,23 @@ import Foundation
 
 // swiftlint:disable nesting
 enum SearchHistories {
+    enum ChangeLanguage {
+        struct Request {
+            var locale: String
+            var countryCode: String
+        }
+
+        struct Response {
+            var locale: String
+            var countryCode: String
+        }
+
+        struct ViewModel {
+            var locale: String
+            var countryCode: String
+        }
+    }
+
     enum LoadHistories {
         struct Request {}
 

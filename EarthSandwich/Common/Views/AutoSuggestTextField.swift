@@ -1,5 +1,5 @@
 //
-//  aa.swift
+//  AutoSuggestTextField.swift
 //  EarthSandwich
 //
 //  Created by Duc on 7/8/24.
@@ -14,6 +14,8 @@ import W3WSwiftComponents
 struct AutoSuggestTextField: UIViewRepresentable {
     typealias UIViewType = UIView
 
+    var locale: String
+    var countryCode: String
     @Binding var text: String
     @Binding var focusing: Bool
 
@@ -21,8 +23,9 @@ struct AutoSuggestTextField: UIViewRepresentable {
         let textField = W3WAutoSuggestTextField()
         textField.font = .systemFont(ofSize: 28)
         let options = W3WOptions()
-            .clip(to: W3WBaseCountry(code: "VI"))
+            .clip(to: W3WBaseCountry(code: countryCode))
             .focus(CLLocationCoordinate2D(latitude: 50.0, longitude: 0.1))
+            .language(W3WBaseLanguage(locale: locale))
         textField.set(options: options)
         textField.textChanged = { text in
             debugPrint("TEXT: ", text ?? "none")

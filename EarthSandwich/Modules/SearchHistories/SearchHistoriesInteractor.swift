@@ -10,6 +10,7 @@ import SwiftData
 import SwiftUI
 
 protocol SearchHistoriesBusinessLogic {
+    func changeLanguage(request: SearchHistories.ChangeLanguage.Request)
     func loadHistories(request: SearchHistories.LoadHistories.Request?)
     func addItem(request: SearchHistories.AddItem.Request)
     func deleteItems(request: SearchHistories.DeleteItem.Request)
@@ -26,10 +27,20 @@ class SearchHistoriesInteractor {
     private let worker: W3WWorker
     private let modelContext: ModelContext
 
+    private var lang: (locale: String, countryCode: String) = ("vi", "VN")
     private var items: [SearchHistory] = []
 }
 
 extension SearchHistoriesInteractor: SearchHistoriesBusinessLogic {
+    func changeLanguage(request: SearchHistories.ChangeLanguage.Request) {
+        lang = (request.locale, request.countryCode)
+        let response = SearchHistories.ChangeLanguage.Response(
+            locale: request.locale,
+            countryCode: request.countryCode
+        )
+        presenter.presentLanguage(response: response)
+    }
+
     func loadHistories(request: SearchHistories.LoadHistories.Request?) {
         guard request != nil else {
             return presenter.presentError("Bad Request")
@@ -50,7 +61,7 @@ extension SearchHistoriesInteractor: SearchHistoriesBusinessLogic {
             do {
                 let coords = try await worker.convertToCoordinates(request.words)
                 let desCoords = worker.calculateAntipode(coords)
-                let desWords = try await worker.convertToWords(desCoords)
+                let desWords = try await worker.convertToWords(coords: desCoords, locale: lang.locale)
                 let newItem = SearchHistory(
                     timestamp: Date(),
                     srcWords: request.words, srcLat: coords.latitude, srcLng: coords.longitude,
