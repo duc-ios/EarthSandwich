@@ -10,7 +10,7 @@ import SwiftData
 import SwiftUI
 
 protocol SearchHistoriesBusinessLogic {
-    var worker: W3WWorker { get set }
+    var repository: W3WRepository { get set }
     var items: [SearchHistory] { get set }
 
     func validateWords(request: SearchHistories.ValidateWords.Request)
@@ -21,15 +21,15 @@ protocol SearchHistoriesBusinessLogic {
 }
 
 class SearchHistoriesInteractor {
-    internal init(presenter: SearchHistoriesPresentationLogic, modelContext: ModelContext, worker: W3WWorker) {
+    internal init(presenter: SearchHistoriesPresentationLogic, modelContext: ModelContext, repository: W3WRepository) {
         self.presenter = presenter
         self.modelContext = modelContext
-        self.worker = worker
+        self.repository =             repository
     }
 
     private let presenter: SearchHistoriesPresentationLogic
     private let modelContext: ModelContext
-    var worker: W3WWorker
+    var repository: W3WRepository
     var items: [SearchHistory] = []
 
     private var lang: (locale: String, countryCode: String) = ("en", "EN")
@@ -69,9 +69,9 @@ extension SearchHistoriesInteractor: SearchHistoriesBusinessLogic {
     func addItem(request: SearchHistories.AddItem.Request) {
         Task {
             do {
-                let coords = try await worker.convertToCoordinates(request.words)
-                let desCoords = worker.calculateAntipode(coords)
-                let desWords = try await worker.convertToWords(coords: desCoords, locale: lang.locale)
+                let coords = try await repository.convertToCoordinates(request.words)
+                let desCoords = repository.calculateAntipode(coords)
+                let desWords = try await repository.convertToWords(coords: desCoords, locale: lang.locale)
                 let newItem = SearchHistory(
                     timestamp: Date(),
                     srcWords: request.words, srcLat: coords.latitude, srcLng: coords.longitude,

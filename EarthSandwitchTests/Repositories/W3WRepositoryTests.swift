@@ -1,5 +1,5 @@
 //
-//  W3WWorkerTests.swift
+//  W3WRepositoryTests.swift
 //  EarthSandwich
 //
 //  Created by Duc on 7/8/24.
@@ -9,13 +9,13 @@ import CoreLocation
 @testable import EarthSandwich
 import XCTest
 
-final class W3WWorkerTests: XCTestCase {
-    private var sut: W3WWorker!
+final class W3WRepositoryTests: XCTestCase {
+    private var sut: W3WRepository!
 
     override func setUp() {
         super.setUp()
 
-        sut = NetworkW3WWorker(apiKey: Configs.apiKey)
+        sut = NetworkW3WRepository(apiKey: Configs.apiKey)
     }
 
     override func tearDown() {

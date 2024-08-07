@@ -1,5 +1,5 @@
 //
-//  APIWorker.swift
+//  W3WRepository.swift
 //  EarthSandwich
 //
 //  Created by Duc on 7/8/24.
@@ -8,14 +8,14 @@
 import CoreLocation
 import W3WSwiftApi
 
-protocol W3WWorker {
+protocol W3WRepository {
     var apiKey: String { get set }
     func convertToCoordinates(_ words: String) async throws -> CLLocationCoordinate2D
     func convertToWords(coords: CLLocationCoordinate2D, locale: String) async throws -> String
     func calculateAntipode(_ coords: CLLocationCoordinate2D) -> CLLocationCoordinate2D
 }
 
-class NetworkW3WWorker: W3WWorker {
+class NetworkW3WRepository: W3WRepository {
     var apiKey: String
     private let api: W3WProtocolV4
 
@@ -53,7 +53,7 @@ class NetworkW3WWorker: W3WWorker {
     }
 }
 
-struct MockW3WWorker: W3WWorker {
+struct MockW3WRepository: W3WRepository {
     var apiKey: String
 
     func convertToCoordinates(_ words: String) async throws -> CLLocationCoordinate2D {
@@ -65,7 +65,7 @@ struct MockW3WWorker: W3WWorker {
     }
 }
 
-extension W3WWorker {
+extension W3WRepository {
     func calculateAntipode(_ coords: CLLocationCoordinate2D) -> CLLocationCoordinate2D {
         // Convert degrees to radians
         let latRad = (coords.latitude * .pi) / 180

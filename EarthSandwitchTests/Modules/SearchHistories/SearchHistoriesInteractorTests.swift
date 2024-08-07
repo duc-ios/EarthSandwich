@@ -11,7 +11,7 @@ import XCTest
 final class SearchHistoriesInteractorTests: XCTestCase {
     private var sut: SearchHistoriesBusinessLogic!
     private var presenter: SearchHistoriesPresenterMock!
-    private var worker: W3WWorker!
+    private var repository: W3WRepository!
 
     @MainActor override func setUp() {
         super.setUp()
@@ -19,21 +19,21 @@ final class SearchHistoriesInteractorTests: XCTestCase {
         UIView.setAnimationsEnabled(false)
 
         presenter = SearchHistoriesPresenterMock()
-        worker = MockW3WWorker(apiKey: "")
+        repository = MockW3WRepository(apiKey: "")
 
         // swiftlint:disable:next force_try
         let container = try! ModelContainer(for: SearchHistory.self, configurations: .init(isStoredInMemoryOnly: true))
         sut = SearchHistoriesInteractor(
             presenter: presenter,
             modelContext: container.mainContext,
-            worker: worker
+                        repository: repository
         )
     }
 
     override func tearDown() {
         sut = nil
         presenter = nil
-        worker = nil
+        repository = nil
 
         super.tearDown()
     }

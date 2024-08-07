@@ -59,13 +59,13 @@ class SearchHistoriesDataStore: ObservableObject {
 extension SearchHistoriesView {
     func configureView(modelContext: ModelContext) -> some View {
         var view = self
-//        let worker = MockW3WWorker(apiKey: Configs.apiKey)
-        let worker = NetworkW3WWorker(apiKey: Configs.apiKey)
+//        let repository = MockW3WRepository(apiKey: Configs.apiKey)
+        let repository = NetworkW3WRepository(apiKey: Configs.apiKey)
         let presenter = SearchHistoriesPresenter(view: view)
         let interactor = SearchHistoriesInteractor(
             presenter: presenter,
             modelContext: modelContext,
-            worker: worker
+            repository: repository
         )
         view.interactor = interactor
         return view
@@ -87,7 +87,7 @@ struct SearchHistoriesView: View {
 
             HStack(alignment: .top) {
                 AutoSuggestTextField(
-                    apiKey: interactor.worker.apiKey,
+                    apiKey: interactor.repository.apiKey,
                     locale: store.lang.locale,
                     countryCode: store.lang.countryCode,
                     text: $store.text,
