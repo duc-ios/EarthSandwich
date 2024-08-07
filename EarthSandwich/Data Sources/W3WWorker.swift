@@ -9,13 +9,20 @@ import CoreLocation
 import W3WSwiftApi
 
 protocol W3WWorker {
+    var apiKey: String { get set }
     func convertToCoordinates(_ words: String) async throws -> CLLocationCoordinate2D
     func convertToWords(coords: CLLocationCoordinate2D, locale: String) async throws -> String
     func calculateAntipode(_ coords: CLLocationCoordinate2D) -> CLLocationCoordinate2D
 }
 
-struct NetworkW3WWorker: W3WWorker {
-    let api = What3WordsV4(apiKey: Configs.apiKey)
+class NetworkW3WWorker: W3WWorker {
+    var apiKey: String
+    private let api: W3WProtocolV4
+
+    init(apiKey: String) {
+        self.apiKey = apiKey
+        self.api = What3WordsV4(apiKey: apiKey)
+    }
 
     func convertToCoordinates(_ words: String) async throws -> CLLocationCoordinate2D {
         try await withCheckedThrowingContinuation { continuation in
@@ -47,6 +54,8 @@ struct NetworkW3WWorker: W3WWorker {
 }
 
 struct MockW3WWorker: W3WWorker {
+    var apiKey: String
+
     func convertToCoordinates(_ words: String) async throws -> CLLocationCoordinate2D {
         return .init(latitude: 52.04, longitude: -0.76)
     }

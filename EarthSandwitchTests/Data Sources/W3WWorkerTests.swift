@@ -15,7 +15,7 @@ final class W3WWorkerTests: XCTestCase {
     override func setUp() {
         super.setUp()
 
-        sut = NetworkW3WWorker()
+        sut = NetworkW3WWorker(apiKey: Configs.apiKey)
     }
 
     override func tearDown() {

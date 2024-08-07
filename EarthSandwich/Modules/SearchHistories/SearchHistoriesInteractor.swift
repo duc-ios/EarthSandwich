@@ -10,6 +10,8 @@ import SwiftData
 import SwiftUI
 
 protocol SearchHistoriesBusinessLogic {
+    var worker: W3WWorker { get set }
+
     func changeLanguage(request: SearchHistories.ChangeLanguage.Request)
     func loadHistories(request: SearchHistories.LoadHistories.Request?)
     func addItem(request: SearchHistories.AddItem.Request)
@@ -17,15 +19,15 @@ protocol SearchHistoriesBusinessLogic {
 }
 
 class SearchHistoriesInteractor {
-    internal init(presenter: SearchHistoriesPresentationLogic, worker: W3WWorker, modelContext: ModelContext) {
+    internal init(presenter: SearchHistoriesPresentationLogic, modelContext: ModelContext, worker: W3WWorker) {
         self.presenter = presenter
-        self.worker = worker
         self.modelContext = modelContext
+        self.worker = worker
     }
 
     private let presenter: SearchHistoriesPresentationLogic
-    private let worker: W3WWorker
     private let modelContext: ModelContext
+    var worker: W3WWorker
 
     private var lang: (locale: String, countryCode: String) = ("vi", "VN")
     private var items: [SearchHistory] = []

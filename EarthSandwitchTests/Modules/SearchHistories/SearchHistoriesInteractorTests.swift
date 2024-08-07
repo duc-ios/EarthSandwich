@@ -19,14 +19,14 @@ final class SearchHistoriesInteractorTests: XCTestCase {
         UIView.setAnimationsEnabled(false)
 
         presenter = SearchHistoriesPresenterMock()
-        worker = MockW3WWorker()
+        worker = MockW3WWorker(apiKey: "")
 
         // swiftlint:disable:next force_try
         let container = try! ModelContainer(for: SearchHistory.self, configurations: .init(isStoredInMemoryOnly: true))
         sut = SearchHistoriesInteractor(
             presenter: presenter,
-            worker: worker,
-            modelContext: container.mainContext
+            modelContext: container.mainContext,
+            worker: worker
         )
     }
 

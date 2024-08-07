@@ -14,6 +14,7 @@ import W3WSwiftComponents
 struct AutoSuggestTextField: UIViewRepresentable {
     typealias UIViewType = UIView
 
+    var apiKey: String
     var locale: String
     var countryCode: String
     @Binding var text: String
@@ -33,7 +34,7 @@ struct AutoSuggestTextField: UIViewRepresentable {
         }
         textField.addTarget(context.coordinator, action: #selector(Coordinator.editingDidBegin), for: .editingDidBegin)
         textField.addTarget(context.coordinator, action: #selector(Coordinator.editingDidEnd), for: .editingDidEnd)
-        textField.set(NetworkW3WWorker().api)
+        textField.set(What3WordsV4(apiKey: apiKey))
         let view = UIView()
         textField.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(textField)
