@@ -74,14 +74,14 @@ final class W3WWorkerTests: XCTestCase {
         // Then
         XCTAssertEqual(
             antipode,
-            CLLocationCoordinate2D(latitude: -51.5209174, longitude: 179.80186640000002)
+            CLLocationCoordinate2D(latitude: -51.5209174, longitude: 179.8018664)
         )
     }
 }
 
 extension CLLocationCoordinate2D: Equatable {
     public static func == (lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool {
-        String(format: "%.2f", lhs.latitude) == String(format: "%.2f", rhs.latitude)
-            && String(format: "%.2f", lhs.longitude) == String(format: "%.2f", rhs.longitude)
+        String(format: "%.4f", lhs.latitude) == String(format: "%.4f", rhs.latitude)
+            && String(format: "%.4f", lhs.longitude) == String(format: "%.4f", rhs.longitude)
     }
 }
