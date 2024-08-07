@@ -10,6 +10,7 @@ import Foundation
 protocol SearchHistoriesPresentationLogic {
     func presentLanguage(response: SearchHistories.ChangeLanguage.Response)
     func presentHistories(response: SearchHistories.LoadHistories.Response)
+    func presentMakeASandwichButton(response: SearchHistories.ValidateWords.Response)
     func presentError(_ error: Error)
 }
 
@@ -22,19 +23,19 @@ class SearchHistoriesPresenter {
 }
 
 extension SearchHistoriesPresenter: SearchHistoriesPresentationLogic {
+    func presentMakeASandwichButton(response: SearchHistories.ValidateWords.Response) {
+        view.displayMakeASandwich(viewModel: .init(isDisabled: !response.isValid))
+    }
+
     func presentLanguage(response: SearchHistories.ChangeLanguage.Response) {
-        let viewModel = SearchHistories.ChangeLanguage.ViewModel(
+        view.displayLanguage(viewModel: .init(
             locale: response.locale,
             countryCode: response.countryCode
-        )
-        view.displayLanguage(viewModel: viewModel)
+        ))
     }
 
     func presentHistories(response: SearchHistories.LoadHistories.Response) {
-        let viewModel = SearchHistories.LoadHistories.ViewModel(
-            items: response.items
-        )
-        view.displayHistories(viewModel: viewModel)
+        view.displayHistories(viewModel: .init(items: response.items))
     }
 
     func presentError(_ error: Error) {

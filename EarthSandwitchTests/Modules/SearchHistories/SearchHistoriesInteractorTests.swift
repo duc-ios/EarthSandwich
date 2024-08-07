@@ -38,6 +38,18 @@ final class SearchHistoriesInteractorTests: XCTestCase {
         super.tearDown()
     }
 
+    func testValidateWords() {
+        // Ginven
+        let words = "///what.three.words"
+        let request = SearchHistories.ValidateWords.Request(words: words)
+
+        // When
+        sut.validateWords(request: request)
+
+        // Then
+        XCTAssert(presenter.presentMakeASandwichButtonCalled)
+    }
+
     func testChangeLanguage() {
         // Given
         let locale = "vi"
@@ -109,9 +121,14 @@ final class SearchHistoriesInteractorTests: XCTestCase {
 }
 
 final class SearchHistoriesPresenterMock: SearchHistoriesPresentationLogic {
+    var presentMakeASandwichButtonCalled = false
     var presentLanguageCalled = false
     var presentHistoriesCalled = false
     var presentErrorCalled = false
+
+    func presentMakeASandwichButton(response: SearchHistories.ValidateWords.Response) {
+        presentMakeASandwichButtonCalled = true
+    }
 
     func presentLanguage(response: SearchHistories.ChangeLanguage.Response) {
         presentLanguageCalled = true

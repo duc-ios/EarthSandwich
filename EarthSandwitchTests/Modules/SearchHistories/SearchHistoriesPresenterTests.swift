@@ -25,6 +25,30 @@ final class SearchHistoriesPresenterTests: XCTestCase {
         super.tearDown()
     }
 
+    func testValidateValidWords() {
+        // Given
+        let words = "///what.three.words"
+        let response = SearchHistories.ValidateWords.Response(isValid: true)
+
+        // When
+        sut.presentMakeASandwichButton(response: response)
+
+        // Then
+        XCTAssertEqual(view.isMakeASandwichButtonDisabled, false)
+    }
+
+    func testValidateInvalidWords() {
+        // Given
+        let words = "///what.three.words"
+        let response = SearchHistories.ValidateWords.Response(isValid: false)
+
+        // When
+        sut.presentMakeASandwichButton(response: response)
+
+        // Then
+        XCTAssertEqual(view.isMakeASandwichButtonDisabled, true)
+    }
+
     func testDisplayLanguage() {
         // Given
         let locale = "vi"
@@ -68,6 +92,11 @@ final class SearchHistoriesViewMock: SearchHistoriesDisplayLogic {
     var countryCode: String?
     var items: [SearchHistory] = []
     var message: String?
+    var isMakeASandwichButtonDisabled = false
+
+    func displayMakeASandwich(viewModel: SearchHistories.ValidateWords.ViewModel) {
+        isMakeASandwichButtonDisabled = viewModel.isDisabled
+    }
 
     func displayLanguage(viewModel: SearchHistories.ChangeLanguage.ViewModel) {
         locale = viewModel.locale

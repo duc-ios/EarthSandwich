@@ -9,6 +9,20 @@ import Foundation
 
 // swiftlint:disable nesting
 enum SearchHistories {
+    enum ValidateWords {
+        struct Request {
+            var words: String
+        }
+
+        struct Response {
+            var isValid: Bool
+        }
+
+        struct ViewModel {
+            var isDisabled: Bool
+        }
+    }
+
     enum ChangeLanguage {
         struct Request {
             var locale: String

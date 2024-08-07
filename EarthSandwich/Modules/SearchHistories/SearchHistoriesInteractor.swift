@@ -13,6 +13,7 @@ protocol SearchHistoriesBusinessLogic {
     var worker: W3WWorker { get set }
     var items: [SearchHistory] { get set }
 
+    func validateWords(request: SearchHistories.ValidateWords.Request)
     func changeLanguage(request: SearchHistories.ChangeLanguage.Request)
     func loadHistories(request: SearchHistories.LoadHistories.Request?)
     func addItem(request: SearchHistories.AddItem.Request)
@@ -35,6 +36,12 @@ class SearchHistoriesInteractor {
 }
 
 extension SearchHistoriesInteractor: SearchHistoriesBusinessLogic {
+    func validateWords(request: SearchHistories.ValidateWords.Request) {
+        presenter.presentMakeASandwichButton(response: .init(
+            isValid: Validator.isValidThreeWords(request.words)
+        ))
+    }
+
     func changeLanguage(request: SearchHistories.ChangeLanguage.Request) {
         lang = (request.locale, request.countryCode)
         let response = SearchHistories.ChangeLanguage.Response(

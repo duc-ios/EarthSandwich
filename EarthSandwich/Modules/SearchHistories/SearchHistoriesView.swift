@@ -9,12 +9,17 @@ import SwiftData
 import SwiftUI
 
 protocol SearchHistoriesDisplayLogic {
+    func displayMakeASandwich(viewModel: SearchHistories.ValidateWords.ViewModel)
     func displayLanguage(viewModel: SearchHistories.ChangeLanguage.ViewModel)
     func displayHistories(viewModel: SearchHistories.LoadHistories.ViewModel)
     func displayError(message: String)
 }
 
 extension SearchHistoriesView: SearchHistoriesDisplayLogic {
+    func displayMakeASandwich(viewModel: SearchHistories.ValidateWords.ViewModel) {
+        store.isMakeASandwichButtonDisabled = viewModel.isDisabled
+    }
+
     func displayLanguage(viewModel: SearchHistories.ChangeLanguage.ViewModel) {
         store.lang = (viewModel.locale, viewModel.countryCode)
     }
@@ -46,6 +51,7 @@ class SearchHistoriesDataStore: ObservableObject {
     @Published var items: [SearchHistory] = []
     @Published var text = ""
     @Published var focusing = false
+    @Published var isMakeASandwichButtonDisabled = true
     @Published var errorMessage: String?
     @Published var displayError = false
 }
@@ -90,6 +96,9 @@ struct SearchHistoriesView: View {
                 .frame(
                     maxHeight: store.focusing ? .infinity : 44
                 )
+                .onChange(of: store.text) {
+                    interactor.validateWords(request: .init(words: store.text))
+                }
 
                 Menu(store.lang.countryCode) {
                     ForEach(store.languages, id: \.locale) { lang in
@@ -123,7 +132,8 @@ struct SearchHistoriesView: View {
             Button("Make a sandwich") {
                 interactor.addItem(request: .init(words: store.text))
                 store.text = ""
-            }.disabled(store.text.isBlank)
+            }
+            .disabled(store.isMakeASandwichButtonDisabled)
 
             if store.focusing {
                 Spacer()
