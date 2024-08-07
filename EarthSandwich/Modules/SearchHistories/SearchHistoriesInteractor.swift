@@ -32,7 +32,7 @@ class SearchHistoriesInteractor {
     var worker: W3WWorker
     var items: [SearchHistory] = []
 
-    private var lang: (locale: String, countryCode: String) = ("vi", "VN")
+    private var lang: (locale: String, countryCode: String) = ("en", "EN")
 }
 
 extension SearchHistoriesInteractor: SearchHistoriesBusinessLogic {

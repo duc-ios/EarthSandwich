@@ -47,7 +47,7 @@ class SearchHistoriesDataStore: ObservableObject {
         ("Tiếng Việt", "vi", "VN")
     ]
 
-    @Published var lang = (locale: "en", countryCode: "EN")
+    @Published var lang: (locale: String, countryCode: String) = ("en", "EN")
     @Published var items: [SearchHistory] = []
     @Published var text = ""
     @Published var focusing = false
