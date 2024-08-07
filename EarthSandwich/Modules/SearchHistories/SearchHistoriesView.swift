@@ -21,7 +21,9 @@ extension SearchHistoriesView: SearchHistoriesDisplayLogic {
 
     func displayHistories(viewModel: SearchHistories.LoadHistories.ViewModel) {
         DispatchQueue.main.async {
-            store.items = viewModel.items
+            withAnimation {
+                store.items = viewModel.items
+            }
         }
     }
 
@@ -51,8 +53,8 @@ class SearchHistoriesDataStore: ObservableObject {
 extension SearchHistoriesView {
     func configureView(modelContext: ModelContext) -> some View {
         var view = self
-        let worker = MockW3WWorker(apiKey: Configs.apiKey)
-//        let worker = NetworkW3WWorker(apiKey: Configs.apiKey)
+//        let worker = MockW3WWorker(apiKey: Configs.apiKey)
+        let worker = NetworkW3WWorker(apiKey: Configs.apiKey)
         let presenter = SearchHistoriesPresenter(view: view)
         let interactor = SearchHistoriesInteractor(
             presenter: presenter,
@@ -118,15 +120,14 @@ struct SearchHistoriesView: View {
 //                    .padding(.leading, 28)
 //            }
 
+            Button("Make a sandwich") {
+                interactor.addItem(request: .init(words: store.text))
+                store.text = ""
+            }.disabled(store.text.isBlank)
+
             if store.focusing {
                 Spacer()
             } else {
-                if !store.text.isBlank {
-                    Button("Make a sandwich") {
-                        interactor.addItem(request: .init(words: store.text))
-                    }
-                }
-
                 if store.items.isEmpty {
                     Spacer()
                     Text("No data")
@@ -137,8 +138,8 @@ struct SearchHistoriesView: View {
                         ForEach(store.items) {
                             ItemCardView(item: $0)
                         }
-                        .onDelete {
-                            interactor.deleteItems(request: .init(offsets: $0))
+                        .onDelete { offsets in
+                            interactor.deleteItems(request: .init(offsets: offsets))
                         }
                     }
                 }

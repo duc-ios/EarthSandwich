@@ -11,6 +11,7 @@ import SwiftUI
 
 protocol SearchHistoriesBusinessLogic {
     var worker: W3WWorker { get set }
+    var items: [SearchHistory] { get set }
 
     func changeLanguage(request: SearchHistories.ChangeLanguage.Request)
     func loadHistories(request: SearchHistories.LoadHistories.Request?)
@@ -28,9 +29,9 @@ class SearchHistoriesInteractor {
     private let presenter: SearchHistoriesPresentationLogic
     private let modelContext: ModelContext
     var worker: W3WWorker
+    var items: [SearchHistory] = []
 
     private var lang: (locale: String, countryCode: String) = ("vi", "VN")
-    private var items: [SearchHistory] = []
 }
 
 extension SearchHistoriesInteractor: SearchHistoriesBusinessLogic {
@@ -70,7 +71,8 @@ extension SearchHistoriesInteractor: SearchHistoriesBusinessLogic {
                     desWords: desWords, desLat: desCoords.latitude, desLng: desCoords.longitude
                 )
                 modelContext.insert(newItem)
-                loadHistories(request: .init())
+                items.insert(newItem, at: 0)
+                presenter.presentHistories(response: .init(items: items))
             } catch {
                 debugPrint(error)
                 presenter.presentError(error)
@@ -80,8 +82,8 @@ extension SearchHistoriesInteractor: SearchHistoriesBusinessLogic {
 
     func deleteItems(request: SearchHistories.DeleteItem.Request) {
         for index in request.offsets {
-            modelContext.delete(items[index])
+            modelContext.delete(items.remove(at: index))
         }
-        loadHistories(request: .init())
+        presenter.presentHistories(response: .init(items: items))
     }
 }

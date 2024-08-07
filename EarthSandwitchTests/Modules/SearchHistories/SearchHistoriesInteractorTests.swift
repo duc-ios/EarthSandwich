@@ -72,6 +72,40 @@ final class SearchHistoriesInteractorTests: XCTestCase {
         // Then
         XCTAssertTrue(presenter.presentErrorCalled)
     }
+
+    func testAddItem() {
+        // Given
+        let words = "mướp đắng.nhận lời.đỏ hồng"
+        let count = sut.items.count
+        let promise = expectation(description: "New item added")
+
+        // When
+        sut.addItem(request: .init(words: words))
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+            guard let self else { return }
+            // Then
+            XCTAssertEqual(sut.items.count, count + 1)
+            XCTAssertTrue(presenter.presentHistoriesCalled)
+            promise.fulfill()
+        }
+
+        wait(for: [promise], timeout: 5)
+    }
+
+    func testDeleteItems() {
+        // Given
+        let offsets = IndexSet(integer: 0)
+        sut.items = [.init(timestamp: Date(), srcWords: "", srcLat: 0, srcLng: 0, desWords: "", desLat: 0, desLng: 0)]
+        let count = sut.items.count
+
+        // When
+        sut.deleteItems(request: .init(offsets: offsets))
+
+        // Then
+        XCTAssertEqual(sut.items.count, count - 1)
+        XCTAssertTrue(presenter.presentHistoriesCalled)
+    }
 }
 
 final class SearchHistoriesPresenterMock: SearchHistoriesPresentationLogic {
