@@ -24,7 +24,7 @@ class SearchHistoriesInteractor {
     internal init(presenter: SearchHistoriesPresentationLogic, modelContext: ModelContext, repository: W3WRepository) {
         self.presenter = presenter
         self.modelContext = modelContext
-        self.repository =             repository
+        self.repository = repository
     }
 
     private let presenter: SearchHistoriesPresentationLogic
@@ -53,7 +53,7 @@ extension SearchHistoriesInteractor: SearchHistoriesBusinessLogic {
 
     func loadHistories(request: SearchHistories.LoadHistories.Request?) {
         guard request != nil else {
-            return presenter.presentError("Bad Request")
+            return presenter.presentError(response: .init(error: "Bad Request"))
         }
 
         do {
@@ -62,7 +62,7 @@ extension SearchHistoriesInteractor: SearchHistoriesBusinessLogic {
             presenter.presentHistories(response: .init(items: items))
         } catch {
             debugPrint("Fetch Failed")
-            presenter.presentError(error)
+            presenter.presentError(response: .init(error: error))
         }
     }
 
@@ -82,7 +82,7 @@ extension SearchHistoriesInteractor: SearchHistoriesBusinessLogic {
                 presenter.presentHistories(response: .init(items: items))
             } catch {
                 debugPrint(error)
-                presenter.presentError(error)
+                presenter.presentError(response: .init(error: error))
             }
         }
     }

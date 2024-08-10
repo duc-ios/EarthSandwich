@@ -12,7 +12,7 @@ struct AppView: View {
     var body: some View {
         NavigationView {
             SearchHistoriesView()
-                .configureView(modelContext: modelContext)
+                .configured(modelContext: modelContext)
         }
     }
 }

@@ -11,7 +11,7 @@ protocol SearchHistoriesPresentationLogic {
     func presentLanguage(response: SearchHistories.ChangeLanguage.Response)
     func presentHistories(response: SearchHistories.LoadHistories.Response)
     func presentMakeASandwichButton(response: SearchHistories.ValidateWords.Response)
-    func presentError(_ error: Error)
+    func presentError(response: SearchHistories.ShowError.Response)
 }
 
 class SearchHistoriesPresenter {
@@ -38,7 +38,7 @@ extension SearchHistoriesPresenter: SearchHistoriesPresentationLogic {
         view.displayHistories(viewModel: .init(items: response.items))
     }
 
-    func presentError(_ error: Error) {
-        view.displayError(message: (error as NSError).description)
+    func presentError(response: SearchHistories.ShowError.Response) {
+        view.displayError(viewModel: .init(message: (response.error as NSError).description))
     }
 }

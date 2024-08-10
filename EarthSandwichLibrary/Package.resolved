@@ -1,24 +1,6 @@
 {
-  "originHash" : "8b3ddd5d0bb7aa9a6811c0ae4c5471cde89dc3cc0ce635b291e0cc267d4e8dff",
+  "originHash" : "15c5bb2c506c9f5cca65448c1f1d52aa7a640c36121193c685d3e0009101e424",
   "pins" : [
-    {
-      "identity" : "swifterswift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/SwifterSwift/SwifterSwift",
-      "state" : {
-        "revision" : "39fa28c90a3ebe3d53f80289304fd880cf2c42d0",
-        "version" : "6.2.0"
-      }
-    },
-    {
-      "identity" : "then",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/devxoul/Then",
-      "state" : {
-        "revision" : "d41ef523faef0f911369f79c0b96815d9dbb6d7a",
-        "version" : "3.0.0"
-      }
-    },
     {
       "identity" : "w3w-swift-components",
       "kind" : "remoteSourceControl",

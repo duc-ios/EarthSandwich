@@ -35,7 +35,7 @@ Distributed under the MIT license. See ``LICENSE`` for more information.
 
 [https://github.com/duc-ios/EarthSandwich](https://github.com/duc-ios/EarthSandwich)
 
-[swift-image]:https://img.shields.io/badge/swift-3.0-orange.svg
+[swift-image]:https://img.shields.io/badge/swift-5.10-orange.svg
 [swift-url]: https://swift.org/
 [license-image]: https://img.shields.io/badge/License-MIT-blue.svg
 [license-url]: LICENSE

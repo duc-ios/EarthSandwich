@@ -12,7 +12,7 @@ protocol SearchHistoriesDisplayLogic {
     func displayMakeASandwich(viewModel: SearchHistories.ValidateWords.ViewModel)
     func displayLanguage(viewModel: SearchHistories.ChangeLanguage.ViewModel)
     func displayHistories(viewModel: SearchHistories.LoadHistories.ViewModel)
-    func displayError(message: String)
+    func displayError(viewModel: SearchHistories.ShowError.ViewModel)
 }
 
 extension SearchHistoriesView: SearchHistoriesDisplayLogic {
@@ -32,43 +32,11 @@ extension SearchHistoriesView: SearchHistoriesDisplayLogic {
         }
     }
 
-    func displayError(message: String) {
+    func displayError(viewModel: SearchHistories.ShowError.ViewModel) {
         DispatchQueue.main.async {
-            store.errorMessage = message
+            store.errorMessage = viewModel.message
             store.displayError = true
         }
-    }
-}
-
-class SearchHistoriesDataStore: ObservableObject {
-    // swiftlint:disable:next large_tuple
-    let languages: [(name: String, locale: String, countryCode: String)] = [
-        ("English", "en", "EN"),
-        ("Tiếng Việt", "vi", "VN")
-    ]
-
-    @Published var lang: (locale: String, countryCode: String) = ("en", "EN")
-    @Published var items: [SearchHistory] = []
-    @Published var text = ""
-    @Published var focusing = false
-    @Published var isMakeASandwichButtonDisabled = true
-    @Published var errorMessage: String?
-    @Published var displayError = false
-}
-
-extension SearchHistoriesView {
-    func configureView(modelContext: ModelContext) -> some View {
-        var view = self
-//        let repository = MockW3WRepository(apiKey: Configs.apiKey)
-        let repository = NetworkW3WRepository(apiKey: Configs.apiKey)
-        let presenter = SearchHistoriesPresenter(view: view)
-        let interactor = SearchHistoriesInteractor(
-            presenter: presenter,
-            modelContext: modelContext,
-            repository: repository
-        )
-        view.interactor = interactor
-        return view
     }
 }
 
@@ -172,7 +140,7 @@ struct SearchHistoriesView: View {
     let container = try! ModelContainer(for: SearchHistory.self, configurations: .init(isStoredInMemoryOnly: true))
     return NavigationView {
         SearchHistoriesView()
-            .configureView(modelContext: container.mainContext)
+            .configured(modelContext: container.mainContext)
     }.modelContainer(container)
 }
 #endif

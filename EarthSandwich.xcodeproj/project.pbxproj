@@ -31,6 +31,8 @@
 		890E61B82C62C20700511139 /* SearchHistoriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890E618B2C628D4B00511139 /* SearchHistoriesView.swift */; };
 		890E61BC2C62C42C00511139 /* W3WRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890E61BA2C62C3AB00511139 /* W3WRepositoryTests.swift */; };
 		890E61BE2C62CC9300511139 /* Seeds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890E61BD2C62CC9300511139 /* Seeds.swift */; };
+		898F2E4F2C6638FE00BD6470 /* SearchHistoriesDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898F2E4E2C6638FE00BD6470 /* SearchHistoriesDataStore.swift */; };
+		898F2E512C66393A00BD6470 /* SearchHistoriesViewConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898F2E502C66393A00BD6470 /* SearchHistoriesViewConfigurator.swift */; };
 		89D7F94B2C63C20E00AC48E3 /* String+ExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89D7F94A2C63C20E00AC48E3 /* String+ExtensionsTests.swift */; };
 		89D7F94D2C63C21600AC48E3 /* String+ErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89D7F94C2C63C21600AC48E3 /* String+ErrorTests.swift */; };
 		89D7F9502C63C78200AC48E3 /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89D7F94F2C63C78200AC48E3 /* Validator.swift */; };
@@ -81,6 +83,8 @@
 		890E61B22C62C0BC00511139 /* SearchHistoriesViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchHistoriesViewTests.swift; sourceTree = "<group>"; };
 		890E61BA2C62C3AB00511139 /* W3WRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = W3WRepositoryTests.swift; sourceTree = "<group>"; };
 		890E61BD2C62CC9300511139 /* Seeds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Seeds.swift; sourceTree = "<group>"; };
+		898F2E4E2C6638FE00BD6470 /* SearchHistoriesDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistoriesDataStore.swift; sourceTree = "<group>"; };
+		898F2E502C66393A00BD6470 /* SearchHistoriesViewConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistoriesViewConfigurator.swift; sourceTree = "<group>"; };
 		89D7F94A2C63C20E00AC48E3 /* String+ExtensionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+ExtensionsTests.swift"; sourceTree = "<group>"; };
 		89D7F94C2C63C21600AC48E3 /* String+ErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+ErrorTests.swift"; sourceTree = "<group>"; };
 		89D7F94F2C63C78200AC48E3 /* Validator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
@@ -200,9 +204,11 @@
 			isa = PBXGroup;
 			children = (
 				890E618F2C628DEF00511139 /* SearchHistoriesModel.swift */,
+				898F2E4E2C6638FE00BD6470 /* SearchHistoriesDataStore.swift */,
+				898F2E502C66393A00BD6470 /* SearchHistoriesViewConfigurator.swift */,
 				890E618B2C628D4B00511139 /* SearchHistoriesView.swift */,
-				890E618D2C628DBE00511139 /* SearchHistoriesPresenter.swift */,
 				890E61912C628EF500511139 /* SearchHistoriesInteractor.swift */,
+				890E618D2C628DBE00511139 /* SearchHistoriesPresenter.swift */,
 				890E619E2C62AEA700511139 /* Views */,
 			);
 			path = SearchHistories;
@@ -470,9 +476,11 @@
 			files = (
 				890E617E2C627E7500511139 /* AppView.swift in Sources */,
 				890E61A22C62B4CD00511139 /* String+Error.swift in Sources */,
+				898F2E512C66393A00BD6470 /* SearchHistoriesViewConfigurator.swift in Sources */,
 				890E61892C62865F00511139 /* String+Extensions.swift in Sources */,
 				890E61922C628EF500511139 /* SearchHistoriesInteractor.swift in Sources */,
 				890E61972C629CCA00511139 /* AutoSuggestTextField.swift in Sources */,
+				898F2E4F2C6638FE00BD6470 /* SearchHistoriesDataStore.swift in Sources */,
 				890E61862C62849200511139 /* Configs.swift in Sources */,
 				890E61842C62815600511139 /* Constants.swift in Sources */,
 				89D7F9502C63C78200AC48E3 /* Validator.swift in Sources */,

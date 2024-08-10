@@ -79,6 +79,20 @@ enum SearchHistories {
             var items: [SearchHistory]
         }
     }
+
+    enum ShowError {
+        struct Request {
+            var error: Error
+        }
+
+        struct Response {
+            var error: Error
+        }
+
+        struct ViewModel {
+            var message: String
+        }
+    }
 }
 
 // swiftlint:enable nesting
