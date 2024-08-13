@@ -80,7 +80,7 @@ final class SearchHistoriesPresenterTests: XCTestCase {
         let error: Error = "ERROR"
 
         // When
-        sut.presentError(error)
+        sut.presentError(response: .init(error: error))
 
         // Then
         XCTAssertEqual(view.message, (error as NSError).description)
@@ -107,7 +107,7 @@ final class SearchHistoriesViewMock: SearchHistoriesDisplayLogic {
         items = viewModel.items
     }
 
-    func displayError(message: String) {
-        self.message = message
+    func displayError(viewModel: EarthSandwich.SearchHistories.ShowError.ViewModel) {
+        self.message = viewModel.message
     }
 }

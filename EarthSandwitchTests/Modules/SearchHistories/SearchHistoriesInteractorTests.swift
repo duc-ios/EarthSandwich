@@ -138,7 +138,7 @@ final class SearchHistoriesPresenterMock: SearchHistoriesPresentationLogic {
         presentHistoriesCalled = true
     }
 
-    func presentError(_ error: any Error) {
+    func presentError(response: EarthSandwich.SearchHistories.ShowError.Response) {
         presentErrorCalled = true
     }
 }
