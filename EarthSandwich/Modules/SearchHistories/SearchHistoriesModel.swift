@@ -86,13 +86,12 @@ enum SearchHistories {
         }
 
         struct Response {
-            var error: Error
+            var error: AppError
         }
 
         struct ViewModel {
-            var message: String
+            var error: AppError
         }
     }
 }
-
 // swiftlint:enable nesting

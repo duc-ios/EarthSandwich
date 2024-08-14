@@ -39,6 +39,6 @@ extension SearchHistoriesPresenter: SearchHistoriesPresentationLogic {
     }
 
     func presentError(response: SearchHistories.ShowError.Response) {
-        view.displayError(viewModel: .init(message: (response.error as NSError).description))
+        view.displayError(viewModel: .init(error: response.error))
     }
 }

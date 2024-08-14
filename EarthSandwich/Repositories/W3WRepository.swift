@@ -32,7 +32,7 @@ class NetworkW3WRepository: W3WRepository {
                 } else if let error {
                     continuation.resume(throwing: error)
                 } else {
-                    continuation.resume(throwing: "Unexpected Error")
+                    continuation.resume(throwing: AppError.unexpected)
                 }
             }
         }
@@ -46,7 +46,7 @@ class NetworkW3WRepository: W3WRepository {
                 } else if let error {
                     continuation.resume(throwing: error)
                 } else {
-                    continuation.resume(throwing: "Unexpected Error")
+                    continuation.resume(throwing: AppError.unexpected)
                 }
             }
         }

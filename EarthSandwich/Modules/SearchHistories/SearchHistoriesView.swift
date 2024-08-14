@@ -34,7 +34,7 @@ extension SearchHistoriesView: SearchHistoriesDisplayLogic {
 
     func displayError(viewModel: SearchHistories.ShowError.ViewModel) {
         DispatchQueue.main.async {
-            store.errorMessage = viewModel.message
+            store.error = viewModel.error
             store.displayError = true
         }
     }
@@ -126,11 +126,12 @@ struct SearchHistoriesView: View {
         .onAppear {
             interactor.loadHistories(request: .init())
         }
-        .alert("Error", isPresented: $store.displayError, actions: {
-            Button("OK") {}
-        }, message: {
-            Text(store.errorMessage ?? "")
-        })
+        .alert(
+            isPresented: $store.displayError,
+            error: store.error,
+            actions: { _ in Button("OK") {} },
+            message: { Text($0.recoverySuggestion ?? "") }
+        )
     }
 }
 

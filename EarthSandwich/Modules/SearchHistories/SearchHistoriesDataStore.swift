@@ -19,6 +19,6 @@ class SearchHistoriesDataStore: ObservableObject {
     @Published var text = ""
     @Published var focusing = false
     @Published var isMakeASandwichButtonDisabled = true
-    @Published var errorMessage: String?
+    @Published var error: AppError?
     @Published var displayError = false
 }

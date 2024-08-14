@@ -53,7 +53,7 @@ extension SearchHistoriesInteractor: SearchHistoriesBusinessLogic {
 
     func loadHistories(request: SearchHistories.LoadHistories.Request?) {
         guard request != nil else {
-            return presenter.presentError(response: .init(error: "Bad Request"))
+            return presenter.presentError(response: .init(error: AppError.badRequest))
         }
 
         do {
@@ -62,7 +62,7 @@ extension SearchHistoriesInteractor: SearchHistoriesBusinessLogic {
             presenter.presentHistories(response: .init(items: items))
         } catch {
             debugPrint("Fetch Failed")
-            presenter.presentError(response: .init(error: error))
+            presenter.presentError(response: .init(error: .error(error)))
         }
     }
 
@@ -82,7 +82,7 @@ extension SearchHistoriesInteractor: SearchHistoriesBusinessLogic {
                 presenter.presentHistories(response: .init(items: items))
             } catch {
                 debugPrint(error)
-                presenter.presentError(response: .init(error: error))
+                presenter.presentError(response: .init(error: .error(error)))
             }
         }
     }
